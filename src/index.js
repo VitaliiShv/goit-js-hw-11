@@ -25,7 +25,7 @@ function onSearch(event) {
   }
 
   imageApiServise.resetPage();
-  imageApiServise.fetchImages().then(({ hits: images }) => {
+  imageApiServise.fetchImages().then(({ hits: images, unavailable }) => {
     if (images.length === 0) {
       Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
@@ -36,6 +36,11 @@ function onSearch(event) {
     }
     clearGallery();
     appendGalleryMarkup(images);
+    if (unavailable) {
+      Notify.info("We're sorry, but you've reached the end of search results.");
+      refs.loadMoreBtn.classList.remove('visible');
+      return;
+    }
     refs.loadMoreBtn.classList.add('visible');
   });
 }

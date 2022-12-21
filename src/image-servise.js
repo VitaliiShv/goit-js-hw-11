@@ -22,10 +22,6 @@ export default class ImageApiServise {
     this.total += hits.length;
     let unavailable = this.total >= totalHits;
 
-    console.log(hits.length);
-    console.log(this.total);
-    console.log(totalHits);
-    console.log(unavailable);
     return { hits, unavailable };
   }
 

@@ -11,19 +11,6 @@ export default class ImageApiServise {
     this.total = 0;
   }
 
-  // fetchImages() {
-  //   const url = `${BASE_URL}/?key=${API_KEY}&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${this.page}&per_page=${this.perPage}`;
-
-  //   return fetch(url).then(response =>
-  //     response.json().then(({ hits, totalHits }) => {
-  //       this.incrementPage();
-  //       let unavailable = (this.total += hits.length) > totalHits;
-
-  //       return { hits, unavailable };
-  //     })
-  //   );
-  // }
-
   async fetchImages() {
     const url = `${BASE_URL}/?key=${API_KEY}&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${this.page}&per_page=${this.perPage}`;
 
@@ -32,7 +19,13 @@ export default class ImageApiServise {
     } = await axios.get(url);
 
     this.incrementPage();
-    let unavailable = (this.total += hits.length) > totalHits;
+    this.total += hits.length;
+    let unavailable = this.total >= totalHits;
+
+    console.log(hits.length);
+    console.log(this.total);
+    console.log(totalHits);
+    console.log(unavailable);
     return { hits, unavailable };
   }
 

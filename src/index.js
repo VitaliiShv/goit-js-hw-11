@@ -16,7 +16,7 @@ refs.loadMoreBtn.addEventListener('click', onLoadMore);
 function onSearch(event) {
   event.preventDefault();
 
-  imageApiServise.query = event.currentTarget.elements.searchQuery.value;
+  imageApiServise.query = event.currentTarget.elements.searchQuery.value.trim();
   imageApiServise.totalItems = 0;
 
   if (imageApiServise.query === '') {
@@ -30,6 +30,8 @@ function onSearch(event) {
       Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
+      clearGallery();
+      refs.loadMoreBtn.classList.remove('visible');
       return;
     }
     clearGallery();
@@ -40,13 +42,12 @@ function onSearch(event) {
 
 function onLoadMore() {
   imageApiServise.fetchImages().then(({ hits: images, unavailable }) => {
+    appendGalleryMarkup(images);
     if (unavailable) {
       Notify.info("We're sorry, but you've reached the end of search results.");
       refs.loadMoreBtn.classList.remove('visible');
       return;
     }
-
-    appendGalleryMarkup(images);
   });
 }
 

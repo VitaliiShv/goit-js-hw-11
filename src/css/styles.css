@@ -99,7 +99,6 @@ button:hover{
 .gallery-item{
   flex-basis: calc(100% / 4 - var(--gallery-gap));
   
-
   margin-left: var(--gallery-gap);
   margin-top: var(--gallery-gap);
 }

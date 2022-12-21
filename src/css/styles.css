@@ -1,0 +1,146 @@
+:root{
+  --gallery-gap: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fafafa;
+  color: #212121;
+  line-height: 1.5;
+  background-color: #e6dbda;
+}
+
+#search-box {
+  font: inherit;
+  padding: 8px;
+  max-width: 320px;
+  margin-bottom: 16px;
+}
+
+img{
+  display: block;
+    
+  max-width: 100%;
+  height: 210px;
+  
+}
+
+
+/* gallery */
+
+.container{
+  
+  width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.search-form{
+  display: flex;
+  justify-content: center;
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+  
+}
+
+.search-form > input{
+  width: 358px;
+  height: 50px;
+  margin-right: 12px;
+  background-color: transparent;
+  border: 1px solid rgba(81, 15, 204, 0.3);
+  padding: 15px 16px;
+  outline: none;
+  border-radius: 4px;
+   
+  transition: border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-form > input:focus{
+  border: 1px solid rgba(226, 15, 15, 0.3)
+}
+
+button{
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid rgba(81, 15, 204, 0.3);
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+
+
+button:hover{
+  background-color: rgba(226, 15, 15, 0.3);
+}
+
+
+
+.gallery{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+ 
+  margin-top: calc(-1 * var(--gallery-gap));
+  margin-left: calc(-1 * var(--gallery-gap));
+  
+}
+
+.gallery-item{
+  flex-basis: calc(100% / 4 - var(--gallery-gap));
+  
+
+  margin-left: var(--gallery-gap);
+  margin-top: var(--gallery-gap);
+}
+
+
+
+.photo-card{
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+
+
+.info{
+  display: flex;
+  justify-content: space-between;
+
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.info-item{
+  text-align: center;
+}
+
+.load-more{
+  visibility: hidden;
+  display: flex;
+  margin-top: 20px;
+  height: 50px;
+  padding: 15px 16px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+.visible{
+  visibility: visible
+}
+
+

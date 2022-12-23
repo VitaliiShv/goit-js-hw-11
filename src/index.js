@@ -1,5 +1,5 @@
 import './css/styles.css';
-import ImageApiServise from './image-servise';
+import ImageApiService from './image-service';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const refs = {
@@ -8,24 +8,28 @@ const refs = {
   gallery: document.querySelector('.gallery'),
 };
 
-const imageApiServise = new ImageApiServise();
+const imageApiService = new ImageApiService();
 
 refs.form.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
-function onSearch(event) {
+async function onSearch(event) {
   event.preventDefault();
 
-  imageApiServise.query = event.currentTarget.elements.searchQuery.value.trim();
-  imageApiServise.totalItems = 0;
+  imageApiService.query = event.currentTarget.elements.searchQuery.value.trim();
+  imageApiService.totalItems = 0;
 
-  if (imageApiServise.query === '') {
+  if (imageApiService.query === '') {
     Notify.failure('Search field should not be empty');
+    clearGallery();
+    refs.loadMoreBtn.classList.remove('visible');
     return;
   }
 
-  imageApiServise.resetPage();
-  imageApiServise.fetchImages().then(({ hits: images, unavailable }) => {
+  imageApiService.resetPage();
+  try {
+    const { hits: images, unavailable } = await imageApiService.fetchImages();
+
     if (images.length === 0) {
       Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
@@ -42,18 +46,24 @@ function onSearch(event) {
       return;
     }
     refs.loadMoreBtn.classList.add('visible');
-  });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-function onLoadMore() {
-  imageApiServise.fetchImages().then(({ hits: images, unavailable }) => {
+async function onLoadMore() {
+  try {
+    const { hits: images, unavailable } = await imageApiService.fetchImages();
+
     appendGalleryMarkup(images);
     if (unavailable) {
       Notify.info("We're sorry, but you've reached the end of search results.");
       refs.loadMoreBtn.classList.remove('visible');
       return;
     }
-  });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function appendGalleryMarkup(images) {

@@ -1,14 +1,17 @@
 import './css/styles.css';
 import ImageApiService from './image-service';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import Spinner from './loader';
 
 const refs = {
   form: document.querySelector('#search-form'),
   loadMoreBtn: document.querySelector('.load-more'),
   gallery: document.querySelector('.gallery'),
+  main: document.querySelector('main'),
 };
 
 const imageApiService = new ImageApiService();
+const spinner = new Spinner(document.querySelector('body'))
 
 refs.form.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
@@ -18,6 +21,8 @@ async function onSearch(event) {
 
   imageApiService.query = event.currentTarget.elements.searchQuery.value.trim();
   imageApiService.totalItems = 0;
+
+  spinner.show();
 
   if (imageApiService.query === '') {
     Notify.failure('Search field should not be empty');
@@ -38,6 +43,7 @@ async function onSearch(event) {
       refs.loadMoreBtn.classList.remove('visible');
       return;
     }
+    spinner.hide();
     clearGallery();
     appendGalleryMarkup(images);
     if (unavailable) {

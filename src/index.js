@@ -11,7 +11,7 @@ const refs = {
 };
 
 const imageApiService = new ImageApiService();
-const spinner = new Spinner(document.querySelector('body'))
+const spinner = new Spinner()
 
 refs.form.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
@@ -39,6 +39,7 @@ async function onSearch(event) {
       Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
+      spinner.hide();
       clearGallery();
       refs.loadMoreBtn.classList.remove('visible');
       return;
@@ -58,9 +59,10 @@ async function onSearch(event) {
 }
 
 async function onLoadMore() {
+  spinner.show();
   try {
     const { hits: images, unavailable } = await imageApiService.fetchImages();
-
+spinner.hide();
     appendGalleryMarkup(images);
     if (unavailable) {
       Notify.info("We're sorry, but you've reached the end of search results.");
